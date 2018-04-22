@@ -1,27 +1,25 @@
 <template>
-  <div class="hello" id="house">
-    <h1>{{ msg }}</h1>
-
+  <div id="house">
   </div>
 </template>
 
 <script>
 import * as THREE from 'three'
 import { objectManager } from '../utils/objectManager'
+const OrbitControls = require('three-orbit-controls')(THREE)
 
 export default {
-  name: 'HelloWorld',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
-  },
+  name: 'House',
   methods: {
     init () {
       const TextureLoader = new THREE.TextureLoader()
       this.scene = new THREE.Scene()
       this.scene.background = new THREE.Color(0xff3300)
-      this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+      this.camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 1000)
+      this.controls = new OrbitControls(this.camera)
+
+      this.controls.autoRotate = true
+      this.controls.enabled = false
 
       objectManager.loadObj({
         mtlPath: 'Apartment.mtl',
@@ -29,16 +27,11 @@ export default {
       }).then(object => {
         TextureLoader.load(require('../../static/objects/Apartment_BaseColor.png'), texture => {
           object.children[0].material.map = texture
-          object.position.set(0, -10, -10)
-          object.scale.set(2, 1, 1)
+          object.position.set(0, -4, 0)
+          object.scale.set(0.5, 0.5, 0.25)
           this.scene.add(object)
         })
       })
-
-      var geometry = new THREE.BoxGeometry(1, 1, 1)
-      var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} )
-      var mesh = new THREE.Mesh(geometry, material)
-      this.scene.add(mesh)
 
       const light = new THREE.DirectionalLight(0xFFFFFF, 1)
       light.position.set(3, 0, 3)
@@ -46,11 +39,12 @@ export default {
 
       this.camera.position.z = 5
       this.renderer = new THREE.WebGLRenderer({antialias: true, alpha: true})
-      this.renderer.setSize(500, 500)
+      this.renderer.setSize(window.innerWidth, window.innerHeight)
       document.getElementById('house').appendChild(this.renderer.domElement)
     },
     render () {
       requestAnimationFrame(this.render)
+      this.controls.update()
       this.renderer.render(this.scene, this.camera)
     }
   },
@@ -76,5 +70,13 @@ li {
 }
 a {
   color: #42b983;
+}
+/deep/ canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
 }
 </style>

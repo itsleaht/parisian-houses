@@ -15,7 +15,7 @@ class ObjectManager {
         material.setTexturePath = `../../static/objects/`
         material.preload()
         this.objLoader.load(require(`../../static/objects/${object.objPath}`), obj => {
-          obj.scale.set(200, 200, 200)
+          // obj.scale.set(200, 200, 200)
           resolve(obj)
         })
       })
