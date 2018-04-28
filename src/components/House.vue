@@ -1,5 +1,5 @@
 <template>
-  <div id="house">
+  <div id="houseComp">
   </div>
 </template>
 
@@ -34,8 +34,12 @@ export default {
       })
 
       const light = new THREE.DirectionalLight(0xFFFFFF, 1)
-      light.position.set(3, 0, 3)
+      light.position.set(3, 0, 2)
       this.scene.add(light)
+
+      const light2 = new THREE.DirectionalLight(0xFFFFFF, 1)
+      light2.position.set(-3, 0, 2)
+      this.scene.add(light2)
 
       const size = 10
       const divisions = 10
@@ -46,7 +50,7 @@ export default {
       this.camera.position.y = 5
       this.renderer = new THREE.WebGLRenderer({antialias: true, alpha: true})
       this.renderer.setSize(window.innerWidth / 2, window.innerHeight / 2)
-      document.getElementById('house').appendChild(this.renderer.domElement)
+      document.getElementById('houseComp').appendChild(this.renderer.domElement)
     },
     render () {
       requestAnimationFrame(this.render)
@@ -66,4 +70,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  #houseComp {
+    position: relative;
+    display: inline-block;
+  }
 </style>

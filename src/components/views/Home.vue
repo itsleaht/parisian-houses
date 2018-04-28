@@ -1,7 +1,7 @@
 <template>
   <section id="home">
-    <house></house>
-    <div class="container">
+    <house ref="house"></house>
+    <div class="container" ref="container">
       <h1>Parisian Houses</h1>
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia dolorum nesciunt cupiditate deserunt quisquam inventore cum in iure minima eaque. Fugit voluptatem dolore corrupti fugiat ipsum rem hic delectus! Officiis.</p>
       <button @click="handleLeavingAnimation">Start</button>
@@ -16,12 +16,27 @@ import { TimelineMax } from 'gsap'
 export default {
   name: 'Home',
   components: { house },
+  data () {
+    return {
+      isLeaving: false
+    }
+  },
   methods: {
     handleLeavingAnimation () {
-
+      this.isLeaving = true
+      this.tlHouse.to(this.$refs.house.$el, 1, {y: -1000})
+      this.tlContainer.to(this.$refs.container, 1.5, {opacity: 0})
     },
     handleStartingAnimation () {
-
+      this.tlHouse = new TimelineMax({onComplete: this.redirect})
+      this.tlContainer = new TimelineMax()
+      this.tlHouse.fromTo(this.$refs.house.$el, 1, {y: -1000}, {y: 0})
+      this.tlContainer.fromTo(this.$refs.container, 1.5, {opacity: 0}, {opacity: 1})
+    },
+    redirect () {
+      if (this.isLeaving) {
+        this.$router.push({name: 'questions'})
+      }
     }
   },
   mounted () {
@@ -34,7 +49,6 @@ export default {
 <style scoped lang="scss">
 
   #home {
-    background: #e0d8d8;
     width: 100vw;
     height: 100vh;
     margin: 0;

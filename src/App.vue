@@ -16,6 +16,7 @@ export default {
   html, body {
     margin: 0;
     padding: 0;
+    background: #e0d8d8;
   }
 
 #app {
@@ -26,7 +27,7 @@ export default {
   color: #2c3e50;
 
   .fade-enter-active {
-    transition: opacity 2s ease-in;
+    transition: opacity .3s ease-in;
   }
   .fade-leave-active {
     transition: opacity 0.5s ease-out;

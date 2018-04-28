@@ -2,62 +2,93 @@
   <section id="questions">
     <div class="container">
       <h1>Questions</h1>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia dolorum nesciunt cupiditate deserunt quisquam inventore cum in iure minima eaque. Fugit voluptatem dolore corrupti fugiat ipsum rem hic delectus! Officiis.</p>
+      <div class="question" ref="questions">
+        <question-item v-for="(question, index) in form" :question="question" :key="'question_'+index" @handleSlides="handleSlides" :data="data"></question-item>
+      </div>
+      <div v-if="results">
+        <h1> Resultats : </h1>
+        <div v-for="(result, index) in data" :key="'question_'+index">
+          {{result}}
+        </div>
+      </div>
     </div>
   </section>
 </template>
 
 <script>
+import QuestionItem from '@/components/QuestionItem'
 
 export default {
   name: 'Questions',
-  components: { }
+  components: { QuestionItem },
+  data () {
+    return {
+      currentSlide: 1,
+      data: {},
+      results: false,
+      form: [
+        {
+          title: 'Dans quel arrondissement habites-tu ?',
+          model: 'arrondissement',
+          type: 'number',
+          min: '1',
+          max: '20'
+        },
+        {
+          title: 'Dans combien de m2 habites-tu ?',
+          model: 'm2',
+          type: 'number',
+          min: '1',
+          max: '500'
+        },
+        {
+          title: 'Dans quel type d\'appartement habites-tu ?',
+          model: 'type',
+          type: 'list',
+          list: ['Studio', 'F1', 'F2', 'F3', 'F4', 'F5', 'F5 et +']
+        },
+        {
+          title: 'Combien de loyer (en €) payes-tu par mois ?',
+          model: 'price',
+          type: 'number',
+          min: '1',
+          max: '10000'
+        }
+      ]
+    }
+  },
+  methods: {
+    handleSlides () {
+      if (this.currentSlide < this.form.length) {
+        this.$refs.questions.style.transform = 'translateX(-' + this.currentSlide * 100 + '%)'
+        this.currentSlide++
+      } else {
+        this.results = true
+      }
+    }
+  }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
-  #home {
-    background: #e0d8d8;
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-
+  #questions {
+    overflow: hidden;
     .container {
-      h1 {
-        margin: 0 auto;
-        padding: 0;
-      }
+      .question {
+        display: flex;
+        transition: transform .5s;
 
-      p {
-        width: 50%;
-        margin: 0 auto;
-      }
+        &-wrapper {
+          min-width: 100%;
 
-      a {
-        text-transform: uppercase;
-        background:#2ca879;
-        padding: 5px 10px;
-        border: none;
-        border-radius: 20px;
-        color: #fff;
-        font-size: 15px;
-        cursor: pointer;
-        transition: background .3s;
-        text-decoration: none;
-
-        &:hover {
-          background: #34b9a5;
+          &_content {
+            width: 500px;
+            margin: 0 auto;
+          }
         }
       }
 
-    }
-
-    canvas {
-      position: absolute;
-      z-index: 1;
     }
   }
 </style>
