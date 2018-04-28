@@ -1,32 +1,17 @@
 <template>
-  <section id="home">
-    <house></house>
+  <section id="questions">
     <div class="container">
-      <h1>Parisian Houses</h1>
+      <h1>Questions</h1>
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia dolorum nesciunt cupiditate deserunt quisquam inventore cum in iure minima eaque. Fugit voluptatem dolore corrupti fugiat ipsum rem hic delectus! Officiis.</p>
-      <button @click="handleLeavingAnimation">Start</button>
     </div>
   </section>
 </template>
 
 <script>
-import house from '@/components/House'
-import { TimelineMax } from 'gsap'
 
 export default {
-  name: 'Home',
-  components: { house },
-  methods: {
-    handleLeavingAnimation () {
-
-    },
-    handleStartingAnimation () {
-
-    }
-  },
-  mounted () {
-    this.handleStartingAnimation()
-  }
+  name: 'Questions',
+  components: { }
 }
 </script>
 
@@ -48,26 +33,31 @@ export default {
 
       p {
         width: 50%;
-        margin: 15px auto;
+        margin: 0 auto;
       }
 
-      button {
-        display: inline-block;
-        padding: 5px 10px;
+      a {
+        text-transform: uppercase;
         background:#2ca879;
+        padding: 5px 10px;
         border: none;
         border-radius: 20px;
         color: #fff;
         font-size: 15px;
         cursor: pointer;
         transition: background .3s;
-        text-transform: uppercase;
-        // text-decoration: none;
+        text-decoration: none;
 
         &:hover {
           background: #34b9a5;
         }
       }
+
+    }
+
+    canvas {
+      position: absolute;
+      z-index: 1;
     }
   }
 </style>
